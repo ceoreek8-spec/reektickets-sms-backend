@@ -1,40 +1,22 @@
-import os
-import json
+from flask import Flask, request, jsonify
 
-def handler(request):
-    """Vercel serverless function handler"""
-    try:
-        # Get path from request
-        path = request.get('path', '/')
+app = Flask(__name__)
 
-        if path == '/api/health':
-            return {
-                'statusCode': 200,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps({
-                    'status': 'healthy',
-                    'service': 'SMS Backend',
-                    'message': 'Basic Vercel function working'
-                })
-            }
-        elif path == '/api/send-sms':
-            return {
-                'statusCode': 200,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps({
-                    'success': False,
-                    'message': 'SMS functionality not yet implemented'
-                })
-            }
-        else:
-            return {
-                'statusCode': 404,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps({'error': 'Not found'})
-            }
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps({'error': str(e)})
-        }
+@app.route("/api/health", methods=["GET"])
+def health():
+    return jsonify({
+        'status': 'healthy',
+        'service': 'SMS Backend',
+        'message': 'Flask app working on Vercel'
+    })
+
+@app.route("/api/send-sms", methods=["POST"])
+def send_sms():
+    return jsonify({
+        'success': False,
+        'message': 'SMS functionality not yet implemented'
+    })
+
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({'message': 'SMS Backend API'})
