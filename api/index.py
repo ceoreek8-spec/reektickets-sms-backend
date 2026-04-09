@@ -25,13 +25,7 @@ def create_auth_profile():
     auth_request = AuthRequest()
     auth_request.setHost(API_HOST)
     auth_request.setAuthApiKey(API_KEY)
-    auth_response = auth_request.authenticate()
-
-    http_status = auth_response.getHttpStatusCode()
-    if http_status >= 400:
-        raise Exception(f"Authentication failed with status {http_status}")
-
-    return auth_response
+    return auth_request.authenticate()
 
 @app.route("/api/health", methods=["GET"])
 def health():
